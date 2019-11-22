@@ -20,7 +20,7 @@ export default class Register extends React.Component {
   }
 
   submituserdata(){
-    //console.log(this.state.email);
+    //console.log('123');
     fetch('http://127.0.0.1:5000/api/register', {
       method: 'POST',
       headers: {
@@ -30,8 +30,7 @@ export default class Register extends React.Component {
       body: JSON.stringify({
         username:'petercheng7788',
         email:'test@gmail.com'
-      })
-      
+      })    
     }).then((response) => {
       return response.json()
       }).then((myJson)=>{

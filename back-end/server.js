@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app  = express();
@@ -16,6 +17,7 @@ db.on('error', function(err){
     console.log(err.message);
 });
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.get('/', (req, res) => {
