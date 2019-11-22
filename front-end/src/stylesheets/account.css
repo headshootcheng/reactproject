@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+.container{
+    width:100vw;
+    display: flex;
+    padding:0;
+    margin: 0;
+    font-family: 'Titillium Web';
+}
+.accounttext{
+    font-family: 'Titillium Web';
+}
+.login-left {
+    background-color: white;
+    flex:0.6;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display:flex;
+    flex-direction: column;
+}
+
+.login-right {
+    background-image: url(../../src/images/gamelogin.jpg);
+    flex:0.4;
+    height: 100vh;
+    text-align: center;
+    color: rgb(63, 8, 77);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.sign-in {
+    text-align: center;
+}
+
+.inputbox {
+    border-radius: 30px;
+    background-color: aquamarine;
+    border: 2px solid grey;
+    width: 250px;
+    height: 30px;
+}
+
+.inputbox:invalid {
+    background-color: red;
+}
+
+.submit,.backlogin {
+    border-radius: 30px;
+    background-color: transparent;
+    border: 2px solid black;
+    width: 100px;
+    height: 30px;
+    color: black;
+
+}
+
+.submit:hover {
+    background-color: orange;
+    color: white;
+}
+
+.backlogin:hover {
+    background-color:red;
+    color: white;
+}
+
+.signupbutton{
+    background-color: transparent;
+    border-radius: 30px;
+    border: 2px solid black;
+    width: 150px;
+    height: 60px;
+    color: black;
+    transition-duration: 0.4s;
+    font-family: 'Titillium Web';
+}
+
+.signupbutton:hover {
+    background-color: black;
+    color: white;
+}
+
+.register-left {
+    background-image: url(../../src/images/signup.jpg);
+    float: left;
+    width: 60%;
+    height: 100vh;
+    -webkit-filter: opacity(40%);
+    filter: brightness(0.5) sepia(1) hue-rotate(-70deg) saturate(5) opacity(60%);
+}
+
+.register-right {
+    float: right;
+    width: 40%;
+    height: 100vh;
+    font-family: 'Titillium Web';
+}
+
+.signup {
+    color: grey;
+}
+
+.required:after {
+    content: '*';
+    color: red;
+}

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+.dashboardtext{
+    font-family: 'Titillium Web';
+    font-size: 28px;
+}
+.dashboardtext2{
+    font-family: 'Titillium Web';
+    font-size: 28px;
+    margin-right:20px;
+}
+.container{
+    display:flex;
+    width:100vw;
+    padding:0;
+    margin:0;
+    font-family: 'Titillium Web';
+}
+.sidenav {
+    height: 100vh;
+    flex:0.12;
+    background-color:black;
+    padding-top: 20px;
+    padding-left:10px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.dropdown {
+    display: none;
+    background-color: black;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.sidenav a,.dropdown a{
+    text-decoration: none;
+    text-align: left;
+}
+
+.menuitem ,.dropdownitem,.user{
+    padding: 25px 0;
+    font-size: 25px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.menuitem:hover ,.dropdownitem:hover,.user:hover{
+    color: black;
+    background-color:white;
+}
+.user:hover .dropdown{display:block;}
+
+.menuitem:active,.dropdownitem:active{
+    background-color: green;
+}
+
+.logout{
+    position: absolute;
+    padding: 20px 0;
+    width:100%;
+    bottom:0px;
+    font-size: 25px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.logout:hover {
+    color: black;
+    background-color:white;
+}
+
+.topbar{
+    background-color:rgb(95, 95, 194);
+    color:white;
+    height:80px;
+    font-size:30px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding-left: 20px;
+    padding-right:20px;
+}
+
+.iconarea{
+    height :60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+.content{
+    flex:1;
+}
