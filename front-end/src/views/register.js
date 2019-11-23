@@ -9,7 +9,7 @@ export default class Register extends React.Component {
        email:'',
        password1:'',
        password2:'',
-       error:''
+       error:null
     }
   }
 
@@ -49,8 +49,8 @@ export default class Register extends React.Component {
     }).then((response) => {
       return response.json()
       }).then((myJson)=>{
-     if(myJson.errormsg){
-       this.setState({error:myJson.errormsg});
+     if(myJson.error){
+       this.setState({error:myJson.error})
      }
   })
     
@@ -69,14 +69,20 @@ export default class Register extends React.Component {
           Please fill in this form to create an account !!!
           <br />
           <hr/>
-          {this.state.error!=''?
-            <center>
-            <div class="errorarea">
-              <i class="fas fa-exclamation-circle"></i>&emsp;
-              {this.state.error}
-            </div>
-            </center>
-          :null}
+          {this.state.error!=null?
+           
+              <div class="errorarea">
+                {this.state.error.map((eacherror)=>{
+                  return(
+                  <div class="errorrow">
+                    <i class="fas fa-exclamation-circle"></i>&emsp;
+                      {eacherror.msg}
+                  </div>)
+                })}
+              </div>
+            :
+            null
+          }
             <form class="signup" onSubmit={this.submituserdata}>
   
               <span class="accounttext">Username:</span>

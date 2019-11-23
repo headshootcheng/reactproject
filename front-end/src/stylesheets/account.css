@@ -9,16 +9,22 @@
 }
 .errorarea{
     background-color: red;
-    width: 400px;
-    height:50px;
-    flex-direction: row;
+    width: 40vw;
+    flex-direction: column;
     display: flex;
     justify-content: center;
     padding-left: 20px;
+    padding-top:10px;
+    padding-bottom: 10px;
     color:white;
     align-items:center;
 }
-
+.errorrow{
+    flex-direction: row;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom:10px;
+}
 .accounttext{
     font-family: 'Titillium Web';
 }
