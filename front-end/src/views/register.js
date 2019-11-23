@@ -1,6 +1,7 @@
 import React from "react";
 import "../stylesheets/account.css";
-
+import { BrowserRouter as Router} from 'react-router-dom'
+import {Redirect} from 'react-router'
 export default class Register extends React.Component {
   constructor(props){
     super(props);
@@ -9,7 +10,8 @@ export default class Register extends React.Component {
        email:'',
        password1:'',
        password2:'',
-       error:null
+       error:null,
+       redirect:false
     }
   }
 
@@ -52,15 +54,22 @@ export default class Register extends React.Component {
      if(myJson.error){
        this.setState({error:myJson.error})
      }
+     if(myJson.redirect){
+        this.setState({redirect:true});
+     }
   })
     
     /*fetch('http://127.0.0.1:5000/api/register')
     .then(res => res.json())
     .then(list => console.log(list))*/
+   
   }
   
 
   render() {
+    if(this.state.redirect==true){
+      return(<Redirect to="/"/>)
+    }
     return (
       <div>
         <div class="register-left"/>
@@ -149,7 +158,6 @@ export default class Register extends React.Component {
               <input class="submit" value="Sign Up" type="submit"/>
               <br />
             </form>
-            <button class="submit" onClick={this.submituserdata} > test</button>
           <br/>
           <a href="/">
             <button class="backlogin">Back</button>
