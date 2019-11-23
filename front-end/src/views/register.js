@@ -5,22 +5,35 @@ export default class Register extends React.Component {
   constructor(props){
     super(props);
     this.state={
-       username:'petercheng',
-       email:'456@gmail.com',
-       password1:'1234',
-       password2:'1234'
+       username:'',
+       email:'',
+       password1:'',
+       password2:'',
+       error:''
     }
   }
 
   componentDidMount() {
     document.title = "Sign Up";
   }
-  onchangeusername = (value) =>{
-    this.setState({username:value})
+  onchangeusername = (event) =>{
+    this.setState({username:event.target.value})
   }
 
-  submituserdata(){
-    //console.log('123');
+  onchangeemail = (event) =>{
+    this.setState({email:event.target.value})
+  }
+
+  onchangepassword1 = (event) =>{
+    this.setState({password1:event.target.value})
+  }
+
+  onchangepassword2 = (event) =>{
+    this.setState({password2:event.target.value})
+  }
+
+  submituserdata=(event)=>{
+    event.preventDefault();
     fetch('http://127.0.0.1:5000/api/register', {
       method: 'POST',
       headers: {
@@ -28,13 +41,17 @@ export default class Register extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username:'petercheng7788',
-        email:'test@gmail.com'
+        username:this.state.username,
+        email:this.state.email,
+        password1:this.state.password1,
+        password2:this.state.password2
       })    
     }).then((response) => {
       return response.json()
       }).then((myJson)=>{
-      console.log(myJson)
+     if(myJson.errormsg){
+       this.setState({error:myJson.errormsg});
+     }
   })
     
     /*fetch('http://127.0.0.1:5000/api/register')
@@ -51,8 +68,17 @@ export default class Register extends React.Component {
           <h1 class="accounttext">Sign Up</h1>
           Please fill in this form to create an account !!!
           <br />
-            <div class="signup">
-              <hr />
+          <hr/>
+          {this.state.error!=''?
+            <center>
+            <div class="errorarea">
+              <i class="fas fa-exclamation-circle"></i>&emsp;
+              {this.state.error}
+            </div>
+            </center>
+          :null}
+            <form class="signup" onSubmit={this.submituserdata}>
+  
               <span class="accounttext">Username:</span>
               <br />
               <div class="required">
@@ -63,9 +89,7 @@ export default class Register extends React.Component {
                   class="inputbox"
                   placeholder="Your Username"
                   pattern="^.{1,10}$"
-                  oninvalid="InvalidMsg1(this);"
-                  oninput="InvalidMsg1(this);"
-                 
+                  onChange={this.onchangeusername}
                   required
                 />
               </div>
@@ -80,9 +104,7 @@ export default class Register extends React.Component {
                   class="inputbox"
                   placeholder="Your Email"
                   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                  oninvalid="InvalidMsg2(this);"
-                  oninput="InvalidMsg2(this);"
-                 
+                  onChange={this.onchangeemail}
                   required
                 />
               </div>
@@ -96,9 +118,8 @@ export default class Register extends React.Component {
                   name="password1"
                   class="inputbox"
                   placeholder="Your Password"
-                  pattern="^.{1,10}$"
-                  oninvalid="InvalidMsg3(this);"
-                  oninput="InvalidMsg3(this);"
+                  pattern="^.{1,10}$"                
+                  onChange={this.onchangepassword1}
                   required
                 />
               </div>
@@ -113,16 +134,16 @@ export default class Register extends React.Component {
                   class="inputbox"
                   placeholder="Repeat Your Password"
                   pattern="^.{1,10}$"
-                  oninvalid="InvalidMsg4(this);"
-                  oninput="InvalidMsg4(this);"
+                  onChange={this.onchangepassword2}
                   required
                 />
               </div>
               <br />
               <br />
-              <button class="submit" onClick={this.submituserdata}>Sign up</button>
+              <input class="submit" value="Sign Up" type="submit"/>
               <br />
-            </div>
+            </form>
+            <button class="submit" onClick={this.submituserdata} > test</button>
           <br/>
           <a href="/">
             <button class="backlogin">Back</button>
