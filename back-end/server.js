@@ -4,8 +4,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app  = express();
 const User = require('./data/account');
+let flash=require('connect-flash')
+let session=require('express-session');
+let passport=require('passport');
 mongoose.connect(User,{ useNewUrlParser: true });
 const db=mongoose.connection;
+
 
 //Check Connection
 db.once('open', function(){
@@ -20,7 +24,23 @@ db.on('error', function(err){
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(require('connect-flash')());
+
+//Express Session
+app.use(session({
+  secret: 'Mole',
+  resave: true,
+  rolling: true,
+  saveUninitialized: true,
+  cookie: {
+  maxAge: 60 * 1000 
+  }
+}));
+require('./data/passport')(passport);
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

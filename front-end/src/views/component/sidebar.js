@@ -1,7 +1,7 @@
 import React from "react";
 import "../../stylesheets/dashboard.css";
-
-export default class Sidebar extends React.Component {
+import { withRouter } from 'react-router-dom';
+ class Sidebar extends React.Component {
   render() {
     return (
       <div id="mySidenav" class="sidenav">
@@ -35,10 +35,12 @@ export default class Sidebar extends React.Component {
           <i class="glyphicon glyphicon-earphone"></i>&emsp;<span class="dashboardtext">Contact</span>
         </div>
         </div>
-        <a  href="/"class="menuitem">
+        <div  class="menuitem" onClick={()=>this.props.history.push('/')}>
           <i class="glyphicon glyphicon-log-out"></i>&emsp;<span class="dashboardtext">Logout</span>
-        </a>
+        </div>
       </div>
     );
   }
 }
+
+export default withRouter(Sidebar);

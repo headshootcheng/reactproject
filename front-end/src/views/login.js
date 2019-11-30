@@ -1,56 +1,115 @@
 import React from "react";
 import "../stylesheets/account.css";
 import titleimg from '../images/title.jpg'
+import axios from 'axios'
+import Cookies from 'js-cookie';
 export default class Login extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+       username:'',
+       password:'',
+       error:null,
+    }
+  }
+
   componentDidMount() {
     document.title = "Login";
+  }
+  onchangeusername = (event) =>{
+    this.setState({username:event.target.value})
+  }
+  onchangepassword= (event) =>{
+    this.setState({password:event.target.value})
+  }
+
+  submituserdata=(event)=>{
+    event.preventDefault();
+    
+    axios.post('http://127.0.0.1:5000/api/login', {
+      
+        username:this.state.username,
+        password:this.state.password
+      
+    }).then((res) => {
+      return res.data
+      }).then((myJson)=>{
+        if(myJson.message){
+          this.setState({error:myJson.message})
+        }
+        if(myJson.username){
+          var id = Cookies.get('session');
+          console.log(id);
+          this.props.history.push({
+            pathname:'/dashboard',
+            state:{success:myJson.username}
+          });
+        }
+         
+    })   
   }
   render() {
     return (
       <div class="container">
         <div class="login-left">
-         
-            <h1 class="accounttext">Login</h1>
-        
-          <form id="form">
-            <div class="sign-in">
-              <img src={titleimg} />
-              <br/>
-              <br/>
-              <span class="accounttext">Username: </span>
-              <input
-                type="text"
-                class="inputbox"
-                name="username"
-                placeholder="Username"
-                oninput="InvalidMsg1(this);"
-                oninvalid="InvalidMsg1(this);"
-                required
-              />
-              <br/><br/>
-              <span class="accounttext">Password: </span>
-              <input
-                type="password"
-                class="inputbox"
-                name="password"
-                placeholder="Password"
-                oninput="InvalidMsg2(this);"
-                oninvalid="InvalidMsg2(this);"
-                required
-              /><br/><br/>
 
-              <input
-                type="submit"
-                class="submit"
-                value="Sign in"
-                onclick="post()"
-              />
-            </div>
-          </form>
-        <br/>
-        <a href="/dashboard">
-            <span class="accounttext">Forgot Password?</span>
-        </a>
+            <h1 class="accounttext">Login</h1>
+            {this.props.location.state?
+              <div class="successarea">
+                  <div class="msgrow">
+                      <i class="fas fa-check-circle"></i>&emsp;
+                      {this.props.location.state.success}
+                  </div>
+              </div>:
+              null
+            }
+
+            {this.state.error!=null?      
+              <div class="errorarea">
+                  <div class="msgrow">
+                    <i class="fas fa-exclamation-circle"></i>&emsp;
+                      {this.state.error}
+                  </div>
+              </div>
+            :
+            null
+            }
+            <form onSubmit={this.submituserdata}>
+              <div class="sign-in">
+                <img src={titleimg} />
+                <br/>
+                <br/>
+                <span class="accounttext">Username: </span>
+                <input
+                  type="text"
+                  class="inputbox"
+                  name="username"
+                  placeholder="Username"
+                  onChange={this.onchangeusername}
+                  required
+                />
+                <br/><br/>
+                <span class="accounttext">Password: </span>
+                <input
+                  type="password"
+                  class="inputbox"
+                  name="password"
+                  placeholder="Password"
+                  onChange={this.onchangepassword}
+                  required
+                /><br/><br/>
+                <input
+                  type="submit"
+                  class="submit"
+                  value="Sign in"
+                />
+              </div>
+            </form>
+          <br/>
+          <a href="/dashboard">
+              <span class="accounttext">Forgot Password?</span>
+          </a>
          
         </div>
 

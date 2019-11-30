@@ -1,7 +1,6 @@
 import React from "react";
 import "../stylesheets/account.css";
-import { BrowserRouter as Router} from 'react-router-dom'
-import {Redirect} from 'react-router'
+import axios from 'axios'
 export default class Register extends React.Component {
   constructor(props){
     super(props);
@@ -11,11 +10,11 @@ export default class Register extends React.Component {
        password1:'',
        password2:'',
        error:null,
-       redirect:false
+       success:null
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     document.title = "Sign Up";
   }
   onchangeusername = (event) =>{
@@ -36,40 +35,33 @@ export default class Register extends React.Component {
 
   submituserdata=(event)=>{
     event.preventDefault();
-    fetch('http://127.0.0.1:5000/api/register', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    
+    axios.post('http://127.0.0.1:5000/api/register', {
+      
         username:this.state.username,
         email:this.state.email,
         password1:this.state.password1,
         password2:this.state.password2
-      })    
-    }).then((response) => {
-      return response.json()
+      
+    }).then((res) => {
+      return res.data
       }).then((myJson)=>{
-     if(myJson.error){
-       this.setState({error:myJson.error})
-     }
-     if(myJson.redirect){
-        this.setState({redirect:true});
-     }
-  })
-    
-    /*fetch('http://127.0.0.1:5000/api/register')
-    .then(res => res.json())
-    .then(list => console.log(list))*/
-   
+      if(myJson.error){
+        this.setState({error:myJson.error})
+      }
+     if(myJson.success){
+      this.setState({success:myJson.success},()=>{
+        this.props.history.push({
+          pathname:'/',
+          state:{success:this.state.success}
+        }); })
+      }   
+    })   
   }
   
 
   render() {
-    if(this.state.redirect==true){
-      return(<Redirect to="/"/>)
-    }
+
     return (
       <div>
         <div class="register-left"/>
@@ -83,7 +75,7 @@ export default class Register extends React.Component {
               <div class="errorarea">
                 {this.state.error.map((eacherror)=>{
                   return(
-                  <div class="errorrow">
+                  <div class="msgrow">
                     <i class="fas fa-exclamation-circle"></i>&emsp;
                       {eacherror.msg}
                   </div>)
