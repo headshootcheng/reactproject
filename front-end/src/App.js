@@ -8,6 +8,8 @@ import {
 import Login from './views/login'
 import Register from './views/register'
 import Dashboard from './views/dashboard'
+import axios from 'axios'
+//axios.defaults.withCredentials = true;
 export default function App() {
   
   return (

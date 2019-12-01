@@ -33,30 +33,27 @@ export default class Register extends React.Component {
     this.setState({password2:event.target.value})
   }
 
-  submituserdata=(event)=>{
+  submituserdata= async(event) => {
     event.preventDefault();
     
-    axios.post('http://127.0.0.1:5000/api/register', {
+    const {data} = await axios.post('http://127.0.0.1:5000/api/register', {
       
         username:this.state.username,
         email:this.state.email,
         password1:this.state.password1,
         password2:this.state.password2
       
-    }).then((res) => {
-      return res.data
-      }).then((myJson)=>{
-      if(myJson.error){
-        this.setState({error:myJson.error})
-      }
-     if(myJson.success){
-      this.setState({success:myJson.success},()=>{
+    })
+    if(data.error){
+      this.setState({error:data.error})
+    }
+     if(data.success){
+      this.setState({success:data.success},()=>{
         this.props.history.push({
           pathname:'/',
           state:{success:this.state.success}
         }); })
-      }   
-    })   
+    }    
   }
   
 

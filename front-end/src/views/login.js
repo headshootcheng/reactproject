@@ -2,7 +2,7 @@ import React from "react";
 import "../stylesheets/account.css";
 import titleimg from '../images/title.jpg'
 import axios from 'axios'
-import Cookies from 'js-cookie';
+axios.defaults.withCredentials=true;
 export default class Login extends React.Component {
 
   constructor(props){
@@ -24,31 +24,26 @@ export default class Login extends React.Component {
     this.setState({password:event.target.value})
   }
 
-  submituserdata=(event)=>{
+   submituserdata = async(event)=>{
     event.preventDefault();
     
-    axios.post('http://127.0.0.1:5000/api/login', {
-      
+    const {data} = await axios.post('http://127.0.0.1:5000/api/login', {
         username:this.state.username,
         password:this.state.password
-      
-    }).then((res) => {
-      return res.data
-      }).then((myJson)=>{
-        if(myJson.message){
-          this.setState({error:myJson.message})
+    },{withCredentials:'include'})
+    if(data.message){
+      this.setState({error:data.message})
+    }
+    else{
+      this.props.history.push({
+        pathname:'/dashboard',
+        state:{
+          loggedin:true,
+          username:data.username,
+          email:data.email
         }
-        else{
-          this.props.history.push({
-            pathname:'/dashboard',
-            state:{
-              loggedin:true,
-              username:myJson.username,
-              email:myJson.email
-            }
-          });
-      }
-    })   
+      });
+    }    
   }
   render() {
     return (

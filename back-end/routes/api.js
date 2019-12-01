@@ -4,9 +4,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User=require('../model/user');
 const { check, validationResult} = require('express-validator');
-let {
-    ensureAuthenticated,
-  } = require('../data/auth');
+
 
 router.get('/register',function(req,res,next){
     res.send('Register API')
@@ -52,7 +50,7 @@ router.post('/register', [
             })   
     })
     ],(req,res)=>{
-        let errormsg=[];
+        const errormsg=[];
         const errors = validationResult(req);
         if (errors.array().length!=0) {
             errors.array().map((error)=>{
@@ -62,7 +60,7 @@ router.post('/register', [
         }
         else{
            
-            let newUser = new User({
+            const newUser = new User({
                 username:req.body.username,
                 email:req.body.email,
                 password:req.body.password1
@@ -109,10 +107,20 @@ router.post('/login',function(req,res,next){
 })
   
 
-router.get('/success',ensureAuthenticated,function(req,res,next){
+router.get('/user',function(req,res,next){
 
-    let userinfo=req.query.username;
-    res.json({redirect:'/'});
+   if(req.isAuthenticated()&&req.user){
+       res.json({
+           loggedin:true,
+           user:req.user
+        })
+   }
+   else{
+       res.json({
+           loggedin:false,
+           user:null
+    })
+   }
 })
 
 router.get('/failed',function(err,req,res,next){

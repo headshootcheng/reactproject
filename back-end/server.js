@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app  = express();
 const User = require('./data/account');
-let flash=require('connect-flash')
-let session=require('express-session');
-let passport=require('passport');
+const flash=require('connect-flash')
+const session=require('express-session');
+const passport=require('passport');
 mongoose.connect(User,{ useNewUrlParser: true });
 const db=mongoose.connection;
 
@@ -22,13 +22,21 @@ db.on('error', function(err){
 });
 
 app.use(cors({
-  origin:"*",
+  origin:"http://localhost:3000",
   methods: ['GET','POST'],
-  credentials: true
+  credentials: true,
+  allowedHeaders: "Content-Type, Authorization, X-Requested-With"
 }));
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+/*app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});*/
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //Express Session
 app.use(session({
@@ -37,7 +45,8 @@ app.use(session({
   rolling: true,
   saveUninitialized: true,
   cookie: {
-  maxAge: 600000 * 1000 
+  maxAge: 600000 * 1000 ,
+  httpOnly:false
   }
 }));
 require('./data/passport')(passport);

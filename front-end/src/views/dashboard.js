@@ -9,7 +9,8 @@ import Game from './content/game';
 import Rank from './content/rank'
 import Contact from './content/contact';
 import Error   from './content/error';
-import axios from 'axios'
+import axios from 'axios';
+axios.defaults.withCredentials=true;
 export default class Dashboard extends React.Component {
     constructor(props){
         super(props);
@@ -21,16 +22,12 @@ export default class Dashboard extends React.Component {
             email:'',
         }
     }
-    componentDidMount() {
-        document.title = "Error";
-       if(this.props.location.state){
-           document.title="Dashboard";
-           this.setState({
-               loggedin:this.props.location.state.loggedin,
-               username:this.props.location.state.username,
-               email:this.props.location.state.email
-            })
-       }
+    async componentDidMount(){
+        document.title="Dashboard"
+        const {data}= await axios('http://127.0.0.1:5000/api/user',{withCredentials:'include'});
+        this.setState({
+            loggedin:data.loggedin,
+        })
     }
     openmenu=()=>{
         if(this.state.popup==false){
