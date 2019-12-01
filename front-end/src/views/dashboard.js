@@ -8,16 +8,29 @@ import Resetpw from './content/resetpw';
 import Game from './content/game';
 import Rank from './content/rank'
 import Contact from './content/contact';
+import Error   from './content/error';
+import axios from 'axios'
 export default class Dashboard extends React.Component {
     constructor(props){
         super(props);
         this.state={
             popup:false,
-            current:'home'
+            current:'home',
+            loggedin:false,
+            username:'',
+            email:'',
         }
     }
     componentDidMount() {
-        document.title = "Dashboard";
+        document.title = "Error";
+       if(this.props.location.state){
+           document.title="Dashboard";
+           this.setState({
+               loggedin:this.props.location.state.loggedin,
+               username:this.props.location.state.username,
+               email:this.props.location.state.email
+            })
+       }
     }
     openmenu=()=>{
         if(this.state.popup==false){
@@ -48,15 +61,20 @@ export default class Dashboard extends React.Component {
     }
     render(){
         return(
-            <div class="container">
-                {this.state.popup==true?
-                    <Sidebar switchpage={this.switchpage}/>:
-                    null
+            
+            <div >
+                {this.state.loggedin==true?
+                    <div class="container">
+                        {this.state.popup==true?<Sidebar switchpage={this.switchpage}/>: null}
+                        <div class="content">
+                            <Topbar openmenu={this.openmenu}/>                  
+                            {this.contentpage()}  
+                        </div>
+                    </div>
+                    :
+                    <Error/>
                 }
-                <div class="content">
-                    <Topbar openmenu={this.openmenu}/>                  
-                    {this.contentpage()}  
-                </div>
+                
             </div>
         )
     }

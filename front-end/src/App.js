@@ -8,7 +8,6 @@ import {
 import Login from './views/login'
 import Register from './views/register'
 import Dashboard from './views/dashboard'
-import cookie from 'react-cookies'
 export default function App() {
   
   return (

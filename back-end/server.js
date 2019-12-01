@@ -21,7 +21,12 @@ db.on('error', function(err){
     console.log(err.message);
 });
 
-app.use(cors());
+app.use(cors({
+  origin:"*",
+  methods: ['GET','POST'],
+  credentials: true
+}));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -32,7 +37,7 @@ app.use(session({
   rolling: true,
   saveUninitialized: true,
   cookie: {
-  maxAge: 60 * 1000 
+  maxAge: 600000 * 1000 
   }
 }));
 require('./data/passport')(passport);

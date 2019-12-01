@@ -9,7 +9,6 @@ let passport = function (passport) {
         new LocalStrategy({
             usernameField:'username'
         }, function (username, password, done) {
-            console.log('123');
             User.findOne({'username':username},function(err,user){
                 if(err) throw err;
                 if(!user){

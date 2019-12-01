@@ -4,11 +4,7 @@ module.exports={
         if (req.isAuthenticated()) {
           return next();
         }
+        res.json({msg:'failed'});
       },
       
-      forwardAuthenticated: function(req, res, next) {
-        if (!req.isAuthenticated()) {
-          console.log('dllm');
-        }      
-      }
     }

@@ -38,15 +38,16 @@ export default class Login extends React.Component {
         if(myJson.message){
           this.setState({error:myJson.message})
         }
-        if(myJson.username){
-          var id = Cookies.get('session');
-          console.log(id);
+        else{
           this.props.history.push({
             pathname:'/dashboard',
-            state:{success:myJson.username}
+            state:{
+              loggedin:true,
+              username:myJson.username,
+              email:myJson.email
+            }
           });
-        }
-         
+      }
     })   
   }
   render() {

@@ -6,7 +6,6 @@ const User=require('../model/user');
 const { check, validationResult} = require('express-validator');
 let {
     ensureAuthenticated,
-    forwardAuthenticated
   } = require('../data/auth');
 
 router.get('/register',function(req,res,next){
@@ -89,11 +88,18 @@ router.get('/login',function(req,res,next){
     res.send('Login API')
 })
 
+/*router.post('/login',
+    passport.authenticate('login', {
+        successRedirect:'/success',
+        failureRedirect:'/failed'
+      })
+    )
+ */
 router.post('/login',function(req,res,next){
     passport.authenticate('login', function(err, user, info) {
         //res.json(info);
         if(user){
-            
+            //res.json({redirect:'/'});
             res.json(user);
         }
         else{
@@ -102,15 +108,15 @@ router.post('/login',function(req,res,next){
       })(req, res, next);
 })
   
-router.get('/user',function(req,res,next){
+
+router.get('/success',ensureAuthenticated,function(req,res,next){
+
     let userinfo=req.query.username;
-    if(res.cookie){
-        res.send(userinfo);
-    }
-    else{
-        res.send("fk");
-    }
+    res.json({redirect:'/'});
 })
 
+router.get('/failed',function(err,req,res,next){
+    res.status(404).json({error:'gg'});
+})
 
 module.exports = router;

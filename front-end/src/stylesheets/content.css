@@ -257,3 +257,29 @@
   border: 2px solid black;
   text-align: center;
 }
+.errorarea2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:column;
+  font-family: 'Titillium Web';
+  font-size: 60px;
+  height:100vh;
+}
+.errorlogin{
+  padding-left: 20px;
+  padding-right: 20px;
+  border-width: 2px;
+  border-color: black;
+  background-color: aquamarine;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  color:black;
+  margin-top: 50px;
+}
+.errorlogin:hover{
+  background-color: orange;
+  color:white;
+}
