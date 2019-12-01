@@ -1,9 +1,9 @@
-let LocalStrategy = require('passport-local').Strategy;
-let bcrypt=require('bcryptjs');
-let User = require('../model/user')
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt=require('bcryptjs');
+const User = require('../model/user')
 //const jwt = require('jsonwebtoken')
 //const JWTStrategy   = require('passport-jwt').Strategy
-let passport = function (passport) {
+const passport = function (passport) {
     
     passport.use('login',
         new LocalStrategy({
