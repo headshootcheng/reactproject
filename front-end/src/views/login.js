@@ -2,6 +2,7 @@ import React from "react";
 import "../stylesheets/account.css";
 import titleimg from '../images/title.jpg'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 axios.defaults.withCredentials=true;
 export default class Login extends React.Component {
 
@@ -35,14 +36,12 @@ export default class Login extends React.Component {
       this.setState({error:data.message})
     }
     else{
+      //localStorage.setItem('token', data.token)
+      Cookies.set('token',data.token);
       this.props.history.push({
-        pathname:'/dashboard',
-        state:{
-          loggedin:true,
-          username:data.username,
-          email:data.email
-        }
+        pathname:'/dashboard'
       });
+      console.log(data);
     }    
   }
   render() {

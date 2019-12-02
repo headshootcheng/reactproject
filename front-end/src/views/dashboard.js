@@ -10,7 +10,8 @@ import Rank from './content/rank'
 import Contact from './content/contact';
 import Error   from './content/error';
 import axios from 'axios';
-axios.defaults.withCredentials=true;
+import Cookies from 'js-cookie'
+
 export default class Dashboard extends React.Component {
     constructor(props){
         super(props);
@@ -24,7 +25,7 @@ export default class Dashboard extends React.Component {
     }
     async componentDidMount(){
         document.title="Dashboard"
-        const {data}= await axios('http://127.0.0.1:5000/api/user',{withCredentials:'include'});
+        const {data}= await axios('http://127.0.0.1:5000/api/user',{headers:{ Authorization: 'Bearer ' + Cookies.get('token')}});
         this.setState({
             loggedin:data.loggedin,
         })
@@ -56,13 +57,17 @@ export default class Dashboard extends React.Component {
                 return <Contact/>
         }
     }
+    logout=()=>{
+        Cookies.remove('token');
+        this.props.history.push('/');
+    }
     render(){
         return(
             
             <div >
                 {this.state.loggedin==true?
                     <div class="container">
-                        {this.state.popup==true?<Sidebar switchpage={this.switchpage}/>: null}
+                        {this.state.popup==true?<Sidebar switchpage={this.switchpage} logout={this.logout}/>: null}
                         <div class="content">
                             <Topbar openmenu={this.openmenu}/>                  
                             {this.contentpage()}  

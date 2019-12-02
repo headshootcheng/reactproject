@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User=require('../model/user');
 const { check, validationResult} = require('express-validator');
+const jwt = require('jsonwebtoken')
 
 
 router.get('/register',function(req,res,next){
@@ -93,7 +94,7 @@ router.get('/login',function(req,res,next){
       })
     )
  */
-router.post('/login',function(req,res,next){
+/*router.post('/login',function(req,res,next){
     passport.authenticate('login', function(err, user, info) {
         //res.json(info);
         if(user){
@@ -121,10 +122,40 @@ router.get('/user',function(req,res,next){
            user:null
     })
    }
-})
+})*/
 
-router.get('/failed',function(err,req,res,next){
-    res.status(404).json({error:'gg'});
-})
+router.post('/login',function(req,res,next) {
+    passport.authenticate('login', {session:false},function(err, user, info) {
+        if(user){
+            const token = jwt.sign(user.toJSON(), 'jwt_secret')
+            res.json({token: token});
+        }
+        else{
+            res.json(info);
+        }
+    })(req, res, next);
+}) 
+
+
+router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) => {
+    if(req.user) {
+        res.json({
+            username: req.user.username,
+            loggedin:true
+        });
+    }
+    else{
+        res.json({
+            username: null,
+            loggedin:false
+        })
+    }
+  })
+    
+
+
+  
+    
+
 
 module.exports = router;

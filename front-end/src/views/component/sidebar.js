@@ -1,6 +1,7 @@
 import React from "react";
 import "../../stylesheets/dashboard.css";
 import { withRouter } from 'react-router-dom';
+import Cookies from 'js-cookie'
  class Sidebar extends React.Component {
   render() {
     return (
@@ -35,7 +36,7 @@ import { withRouter } from 'react-router-dom';
           <i class="glyphicon glyphicon-earphone"></i>&emsp;<span class="dashboardtext">Contact</span>
         </div>
         </div>
-        <div  class="menuitem" onClick={()=>this.props.history.push('/')}>
+        <div  class="menuitem" onClick={this.props.logout}>
           <i class="glyphicon glyphicon-log-out"></i>&emsp;<span class="dashboardtext">Logout</span>
         </div>
       </div>

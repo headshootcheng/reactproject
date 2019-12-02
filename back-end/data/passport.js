@@ -2,7 +2,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt=require('bcryptjs');
 const User = require('../model/user')
 //const jwt = require('jsonwebtoken')
-//const JWTStrategy   = require('passport-jwt').Strategy
+const JWTStrategy   = require('passport-jwt').Strategy
+const ExtractJWT = require('passport-jwt').ExtractJwt
 const passport = function (passport) {
     
     passport.use('login',
@@ -28,8 +29,20 @@ const passport = function (passport) {
             })
         })
     );
+    passport.use(new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        secretOrKey: 'jwt_secret'
+      }, (jwt_payload, done) => {
+        User.findOne({'username':jwt_payload.username}).then(user => {
+          return done(null, user)
+        }).catch(err => {
+          return done(err, false, {
+            message: 'Token not matched.'
+          })
+        })
+      }))
     
-    passport.serializeUser(
+    /*passport.serializeUser(
         function (user, done) {
             done(null, user.username);
         });
@@ -40,7 +53,7 @@ const passport = function (passport) {
                 done(err, result);            
             });
             
-        });
+    });*/
 
 }
 
