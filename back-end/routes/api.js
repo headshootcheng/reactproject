@@ -64,7 +64,8 @@ router.post('/register', [
             const newUser = new User({
                 username:req.body.username,
                 email:req.body.email,
-                password:req.body.password1
+                password:req.body.password1,
+                score:0
               });
             bcrypt.genSalt(10, function(err, salt){
                 bcrypt.hash(newUser.password, salt,function (err,hash) {
@@ -74,7 +75,7 @@ router.post('/register', [
                     else{
                         newUser.password = hash;
                         newUser.save();
-                        res.json({success:'Congrat!!!You are successfully registered!!!'});
+                        res.json({success:'Congrat!!! You are successfully registered!!!'});
                     }
                 });
             })
@@ -136,21 +137,45 @@ router.post('/login',function(req,res,next) {
     })(req, res, next);
 }) 
 
-
 router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) => {
     if(req.user) {
-        res.json({
-            username: req.user.username,
-            loggedin:true
-        });
+        let ranking=[];
+        User.find().sort({score:-1}).then(user=>{
+            for(var i = 0;i<10;i++){
+                if(user[i]!=undefined){
+                    ranking.push({
+                        number:i+1,
+                        icon:"http://127.0.0.1:5000/images/1155095104.jpg",
+                        username:user[i].username,
+                        score:user[i].score
+                    });
+                }
+                else{
+                    ranking.push({
+                        number:i+1,
+                        icon:"http://127.0.0.1:5000/images/defaulticon.jpg",
+                        username:"/",
+                        score:"/"
+                    });
+                }
+            }
+         }).then(()=>{
+            res.json({
+                username: req.user.username,
+                email:req.user.email,
+                score:req.user.score,
+                icon: "http://127.0.0.1:5000/images/1155095104.jpg",
+                rank:ranking,
+                loggedin:true
+            });
+        })    
     }
     else{
         res.json({
-            username: null,
             loggedin:false
         })
     }
-  })
+})
     
 
 

@@ -7,7 +7,7 @@ export default class Home extends React.Component{
             
                 
                     <div class="homearea">
-                        Welcome! User! <br/>
+                        Welcome! {this.props.username}! <br/>
                         <img src={titleimg} class="titleicon"/>
                  </div>
                 

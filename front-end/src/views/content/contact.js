@@ -16,7 +16,7 @@ export default class Contact extends React.Component{
                     </tr>
                 </table>
                 <br/>
-                Thanks for your support! User!
+                Thanks for your support! {this.props.username}!
             </div>
         )
     }

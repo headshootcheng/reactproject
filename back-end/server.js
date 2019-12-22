@@ -20,7 +20,7 @@ db.once('open', function(){
 db.on('error', function(err){
     console.log(err.message);
 });
-
+app.use(express.static('public'));
 app.use(cors({
   origin:"http://localhost:3000",
   methods: ['GET','POST'],
@@ -60,6 +60,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.use('/service',require('./routes/service'));
 app.use('/api',require('./routes/api'));
 
 app.listen(5000, function () {

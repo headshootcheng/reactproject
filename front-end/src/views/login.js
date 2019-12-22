@@ -41,7 +41,6 @@ export default class Login extends React.Component {
       this.props.history.push({
         pathname:'/dashboard'
       });
-      console.log(data);
     }    
   }
   render() {

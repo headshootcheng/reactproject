@@ -1,7 +1,6 @@
 import React from "react";
 import "../../stylesheets/dashboard.css";
 import { withRouter } from 'react-router-dom';
-import Cookies from 'js-cookie'
  class Sidebar extends React.Component {
   render() {
     return (
