@@ -65,7 +65,8 @@ router.post('/register', [
                 username:req.body.username,
                 email:req.body.email,
                 password:req.body.password1,
-                score:0
+                score:0,
+                icon:false
               });
             bcrypt.genSalt(10, function(err, salt){
                 bcrypt.hash(newUser.password, salt,function (err,hash) {
@@ -145,7 +146,7 @@ router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) =
                 if(user[i]!=undefined){
                     ranking.push({
                         number:i+1,
-                        icon:"http://127.0.0.1:5000/images/1155095104.jpg",
+                        icon:user[i].icon==true?`http://127.0.0.1:5000/images/${user[i].username}.jpg`:`http://127.0.0.1:5000/images/defaulticon.jpg`,
                         username:user[i].username,
                         score:user[i].score
                     });
@@ -164,7 +165,7 @@ router.get('/user', passport.authenticate('jwt', {session: false}), (req, res) =
                 username: req.user.username,
                 email:req.user.email,
                 score:req.user.score,
-                icon: "http://127.0.0.1:5000/images/1155095104.jpg",
+                icon: req.user.icon==true?`http://127.0.0.1:5000/images/${req.user.username}.jpg`:`http://127.0.0.1:5000/images/defaulticon.jpg`,
                 rank:ranking,
                 loggedin:true
             });

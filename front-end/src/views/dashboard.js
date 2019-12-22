@@ -77,7 +77,7 @@ export default class Dashboard extends React.Component {
             case 'profile':
                 return <Profile {...this.state} onChangeEmail={this.onChangeEmail}/>
             case 'resetpw':
-                return <Resetpw {...this.state}/>
+                return <Resetpw {...this.state} />
             case 'game':
                 return <Game {...this.state}/>
             case 'rank':

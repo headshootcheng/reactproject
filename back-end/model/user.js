@@ -17,6 +17,10 @@ const UserSchema = mongoose.Schema({
   score:{
     type:Number,
     required: true
+  },
+  icon:{
+    type:Boolean,
+    required:true
   }
 });
 
