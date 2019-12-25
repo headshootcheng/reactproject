@@ -57,7 +57,7 @@ app.use(passport.session());
 app.use(flash());
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Super Whack A Mole Back-End Server')
 })
 
 app.use('/service',require('./routes/service'));
