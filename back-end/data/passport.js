@@ -28,6 +28,8 @@ const passport = function (passport) {
             })
         })
     );
+
+
     passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey: 'jwt_secret'
@@ -40,19 +42,6 @@ const passport = function (passport) {
           })
         })
       }))
-    
-    /*passport.serializeUser(
-        function (user, done) {
-            done(null, user.username);
-        });
-
-    passport.deserializeUser(
-        function (username, done) {
-            User.findOne(username, function (err, result) {
-                done(err, result);            
-            });
-            
-    });*/
 
 }
 
